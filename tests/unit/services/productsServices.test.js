@@ -1,11 +1,12 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+
 const productsModels = require('../../../src/models/productsModels');
 const productsServices = require('../../../src/services/productsServices')
 const { productsList, invalidValue } = require('./mocks/productsServices.mock');
 
 describe('Unit tests for products services', function () {
-    it('returns the products list with success', async function () {
+  it('returns all products', async function () {
       sinon.stub(productsModels, 'findAll').resolves(productsList);
 
       const result = await productsServices.findAll();
@@ -14,7 +15,7 @@ describe('Unit tests for products services', function () {
     });
 
 
-    it('returns a product if the id exists ', async function () {
+  it('returns a product by id ', async function () {
       sinon.stub(productsModels, 'findById').resolves(productsList[0]);
 
       const result = await productsServices.findById(1);

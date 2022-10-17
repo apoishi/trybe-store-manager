@@ -1,21 +1,22 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const productsModels = require('../../../src/models/productsModels');
 const connection = require('../../../src/models/db/connection');
-const { products } = require('./mocks/productsModels.mock');
+
+const productsModels = require('../../../src/models/productsModels');
+const { productsList } = require('./mocks/productsModels.mock');
 
   describe('Unit tests for products models', function () {
     afterEach(sinon.restore);
 
-    it('shows all products', async function () {
-      sinon.stub(connection, 'execute').resolves([products]);
+    it('returns all products', async function () {
+      sinon.stub(connection, 'execute').resolves([productsList]);
       const result = await productsModels.findAll();
-      expect(result).to.be.deep.equal(products);
+      expect(result).to.be.deep.equal(productsList);
     });
 
-    it('shows the product id', async function () {
-     sinon.stub(connection, 'execute').resolves([[products[0]]]);
+    it('returns a product by id', async function () {
+     sinon.stub(connection, 'execute').resolves([[productsList[0]]]);
      const result = await productsModels.findById(1);
-      expect(result).to.be.deep.equal(products[0]);
+      expect(result).to.be.deep.equal(productsList[0]);
     });
   });

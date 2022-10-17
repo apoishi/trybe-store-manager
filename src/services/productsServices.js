@@ -1,9 +1,7 @@
 const productsModels = require('../models/productsModels');
 
 const findAll = async () => {
-  // TODO: get products from model
   const products = await productsModels.findAll();
-  // TODO: return the object
   return { type: null, message: products };
 };
 
