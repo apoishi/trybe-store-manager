@@ -1,5 +1,3 @@
-const invalidValue = "a";
-
 const productsList = [
   {
     id: 1,
@@ -15,7 +13,18 @@ const productsList = [
   },
 ];
 
+const newProductResponse = {
+  id: 1,
+  name: 'ProdutoX'
+}
+
+const newProduct = {
+  name: 'ProdutoX'
+}
+
 module.exports = {
   productsList,
-  invalidValue,
+  newProductResponse,
+  newProduct,
+  
 };

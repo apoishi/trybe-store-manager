@@ -14,7 +14,7 @@ const productsList = [
 ]
 
 const newProduct = {
-  "name": "ProdutoX"
+  name: 'ProdutoX'
 }
 
 module.exports = {
