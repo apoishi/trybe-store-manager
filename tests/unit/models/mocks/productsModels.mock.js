@@ -13,6 +13,11 @@ const productsList = [
   }
 ]
 
+const newProduct = {
+  "name": "ProdutoX"
+}
+
 module.exports = {
   productsList,
+  newProduct,
 }
