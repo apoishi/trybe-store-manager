@@ -25,7 +25,7 @@ const insert = async (product) => {
     .join(', ');
 
   const [{ insertId }] = await connection.execute(
-    `INSERT INTO passengers (${columns}) VALUE (${placeholders})`,
+    `INSERT INTO StoreManager.products (${columns}) VALUE (${placeholders})`,
     [...Object.values(product)],
   );
 
