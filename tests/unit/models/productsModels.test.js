@@ -21,7 +21,7 @@ const { productsList, newProduct } = require('./mocks/productsModels.mock');
     });
     
     describe('Adding a new product', function () {
-      it('registers a new product', async function () {
+      it('returns a new product added successfully', async function () {
         sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
         const result = await productsModels.insert(newProduct);
         expect(result).to.equal(4);

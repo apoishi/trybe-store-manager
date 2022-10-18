@@ -13,6 +13,18 @@ const productsList = [
   },
 ];
 
+const newProductResponse = {
+  id: 1,
+  name: 'ProdutoX'
+}
+
+const newProduct = {
+  name: 'ProdutoX'
+}
+
+
 module.exports = {
   productsList,
+  newProductResponse,
+  newProduct,
 };

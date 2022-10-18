@@ -35,7 +35,7 @@ describe('Unit tests for products services', function () {
   });
 
   describe('Adding a new product', function () {
-    it('returns a product added successfully', async function () {
+    it('returns a new product added successfully', async function () {
       sinon.stub(productsModels, 'insert').resolves([{ insertId: 1 }]);
       sinon.stub(productsModels, 'findById').resolves(newProductResponse);
 
