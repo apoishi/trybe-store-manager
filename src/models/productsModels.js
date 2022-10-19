@@ -31,9 +31,21 @@ const insert = async (product) => {
 
   return insertId;
 };
+
+const updateById = async (productId, dataToUpdate) => {
+  const formattedColumns = Object.keys(snakeize(dataToUpdate))
+    .map((key) => `${key} = ?`)
+    .join(', ');
+
+  return connection.execute(
+    `UPDATE travels SET ${formattedColumns} WHERE id = ?`,
+    [...Object.values(dataToUpdate), productId],
+  );
+};
   
 module.exports = {
   findAll,
   findById,
   insert,
+  updateById,
 };

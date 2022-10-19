@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const connection = require('../../../src/models/db/connection');
 
 const productsModels = require('../../../src/models/productsModels');
-const { productsList, newProduct } = require('./mocks/productsModels.mock');
+const { productsList, newProduct, productsUpdated } = require('./mocks/productsModels.mock');
 
   describe('Unit tests for products models', function () {
     describe('Listing products', function () {
@@ -27,5 +27,21 @@ const { productsList, newProduct } = require('./mocks/productsModels.mock');
         expect(result).to.equal(4);
       });
     });
+
+    describe('Updating a product', function () {
+      it('returns a product updated by id', async function () {
+        sinon.stub(connection, 'execute').resolves(productsUpdated);
+      
+        const productId = 1;
+        const name = 'Martelo do Batman';
+        const update = { productId, name };
+
+        const result = await productsModels.updateById(productId, update);
+
+        expect(result[0].affectedRows).to.be.deep.equal(1);
+        expect(result[0].changedRows).to.be.deep.equal(1);
+      });
+    });
+    
   afterEach(sinon.restore);
 });
