@@ -32,15 +32,12 @@ const insert = async (product) => {
   return insertId;
 };
 
-const updateById = async (productId, dataToUpdate) => {
-  const formattedColumns = Object.keys(snakeize(dataToUpdate))
-    .map((key) => `${key} = ?`)
-    .join(', ');
-
-  return connection.execute(
-    `UPDATE travels SET ${formattedColumns} WHERE id = ?`,
-    [...Object.values(dataToUpdate), productId],
+const updateById = async (dataToUpdate) => {
+  const [result] = await connection.execute(
+    'UPDATE StoreManager.products SET name = ? WHERE id = ?',
+    [dataToUpdate.name, dataToUpdate.id],
   );
+  return result;
 };
   
 module.exports = {

@@ -30,16 +30,9 @@ const { productsList, newProduct, productsUpdated } = require('./mocks/productsM
 
     describe('Updating a product', function () {
       it('returns a product updated by id', async function () {
-        sinon.stub(connection, 'execute').resolves(productsUpdated);
-      
-        const productId = 1;
-        const name = 'Martelo do Batman';
-        const update = { productId, name };
-
-        const result = await productsModels.updateById(productId, update);
-
-        expect(result[0].affectedRows).to.be.deep.equal(1);
-        expect(result[0].changedRows).to.be.deep.equal(1);
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const result = await productsModels.updateById(productsUpdated);
+        expect(result).to.be.deep.equal({ affectedRows: 1 });
       });
     });
     

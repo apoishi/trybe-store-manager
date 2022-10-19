@@ -22,9 +22,13 @@ const newProduct = {
   name: 'ProdutoX'
 }
 
+const updatedProduct = { id: 1, name: "Martelo do Batman" };
+const dataToUpdate = { name: "Martelo do Batman" };
 
 module.exports = {
   productsList,
   newProductResponse,
   newProduct,
+  dataToUpdate,
+  updatedProduct,
 };
