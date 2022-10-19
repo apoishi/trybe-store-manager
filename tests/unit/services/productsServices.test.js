@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const productsModels = require('../../../src/models/productsModels');
 const productsServices = require('../../../src/services/productsServices')
-const { productsList, newProduct, newProductResponse } = require('./mocks/productsServices.mock');
+const { productsList, newProduct, newProductResponse, updatedProduct, invalidProductData} = require('./mocks/productsServices.mock');
 
 describe('Unit tests for products services', function () {
   describe('Listing products', function () {
@@ -24,7 +24,7 @@ describe('Unit tests for products services', function () {
       expect(result.message).to.deep.equal(productsList[0]);
     });
 
-    it('returns an error if the product does not exist', async function () {
+    it('returns an error if the product id does not exist', async function () {
       sinon.stub(productsModels, 'findById').resolves(undefined);
 
       const result = await productsServices.findById(1);
@@ -45,6 +45,26 @@ describe('Unit tests for products services', function () {
       expect(result.message).to.deep.equal(newProductResponse);
     });
   });
+
+  describe('Updating a product', function () {
+    it('returns a product updated by id', async function () {
+      sinon.stub(productsModels, 'updateById').resolves({ affectedRows: 1 });
+      sinon.stub(productsModels, 'findById').resolves(productsList[0]);
+
+      const result = await productsServices.updateProduct(updatedProduct);
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(updatedProduct);
+    });
+
+    it('returns an error if the product does not exist', async function () {
+      sinon.stub(productsModels, 'updateById').resolves(undefined);
+      sinon.stub(productsModels, 'findById').resolves(undefined);
+
+      const result = await productsServices.updateProduct(invalidProductData);
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.equal('Product not found');
+    });
+});
+
   afterEach(sinon.restore);
 });
-  
