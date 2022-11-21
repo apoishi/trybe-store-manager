@@ -5,11 +5,11 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const productsServices = require('../../../src/services/productsServices');
-const productsControllers = require('../../../src/controllers/productsControllers');
+const productsService = require('../../../src/services/productsService');
+const productsController = require('../../../src/controllers/productsController');
 const { productsList, newProduct, newProductResponse, dataToUpdate, updatedProduct } = require('./mocks/productsControllers.mock');
 
-describe('Unit Tests for products controllers', function () {
+describe('Unit Tests for products controller', function () {
   describe('Listing products', function () {
     it('returns all products', async function () {
       const res = {};
@@ -18,10 +18,10 @@ describe('Unit Tests for products controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, 'findAll')
+        .stub(productsService, 'findAll')
         .resolves({ type: null, message: productsList });
 
-      await productsControllers.listProducts(req, res);
+      await productsController.listProducts(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(productsList);
@@ -36,10 +36,10 @@ describe('Unit Tests for products controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, 'findById')
+        .stub(productsService, 'findById')
         .resolves({ type: null, message: productsList[0]});
 
-      await productsControllers.getProduct(req, res);
+      await productsController.getProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(productsList[0]);
@@ -54,10 +54,10 @@ describe('Unit Tests for products controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, 'findById')
+        .stub(productsService, 'findById')
         .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
 
-      await productsControllers.getProduct(req, res);
+      await productsController.getProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
@@ -72,15 +72,16 @@ describe('Unit Tests for products controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, "createProduct")
+        .stub(productsService, "createProduct")
         .resolves({ type: null, message: newProductResponse });
 
-      await productsControllers.createProduct(req, res);
+      await productsController.createProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(newProductResponse);
     });
   });
+
   describe('Updating a product', function () {
     it('returns a product updated by id', async function () {
       const res = {};
@@ -92,13 +93,28 @@ describe('Unit Tests for products controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, 'updateProduct')
+        .stub(productsService, 'updateProduct')
         .resolves({ type: null, message: updatedProduct });
 
-      await productsControllers.updateProduct(req, res);
+      await productsController.updateProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(updatedProduct);
+    });
+  });
+
+  describe('Removing products', function () {
+    it('should remove a product', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon.stub(productsService, "removeProduct").resolves({ type: null });
+
+      await productsController.removeProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
     });
   });
 

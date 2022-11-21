@@ -5,11 +5,11 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const salesServices = require('../../../src/services/salesServices');
-const salesControllers = require('../../../src/controllers/salesControllers');
+const salesService = require('../../../src/services/salesService');
+const salesController = require('../../../src/controllers/salesController');
 const { salesList } = require('./mocks/salesControllers.mock');
 
-describe('Unit Tests for sales controllers', function () {
+describe('Unit Tests for sales controller', function () {
   describe('Listing sales', function () {
     it('returns all sales', async function () {
       const res = {};
@@ -18,10 +18,10 @@ describe('Unit Tests for sales controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(salesServices, 'findAll')
+        .stub(salesService, 'findAll')
         .resolves({ type: null, message: salesList });
 
-      await salesControllers.listSales(req, res);
+      await salesController.listSales(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(salesList);
@@ -36,10 +36,10 @@ describe('Unit Tests for sales controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(salesServices, 'findById')
+        .stub(salesService, 'findById')
         .resolves({ type: null, message: salesList[0] });
 
-      await salesControllers.getSale(req, res);
+      await salesController.getSale(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(salesList[0]);
@@ -54,10 +54,10 @@ describe('Unit Tests for sales controllers', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(salesServices, 'findById')
+        .stub(salesService, 'findById')
         .resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
 
-      await salesControllers.getSale(req, res);
+      await salesController.getSale(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
