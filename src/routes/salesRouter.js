@@ -6,5 +6,6 @@ router.use(express.json());
 
 router.get('/', salesController.listSales);
 router.get('/:id', salesController.getSale);
+router.delete('/:id', salesController.removeSale);
 
 module.exports = router;

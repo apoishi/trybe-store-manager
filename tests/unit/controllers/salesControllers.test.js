@@ -63,5 +63,19 @@ describe('Unit Tests for sales controller', function () {
       expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
     });
   });
+  describe('Removing a sale', function () {
+    it("should remove a sale", async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon.stub(salesService, "removeSale").resolves({ type: null });
+
+      await salesController.removeSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
   afterEach(sinon.restore);
 });

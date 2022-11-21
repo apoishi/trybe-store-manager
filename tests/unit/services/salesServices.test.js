@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const salesModel = require('../../../src/models/salesModel');
 const salesService = require('../../../src/services/salesService')
-const { salesList } = require('./mocks/salesServices.mock');
+const { salesList, sale } = require('./mocks/salesServices.mock');
 
 describe('Unit tests for sales service', function () {
   describe('Listing sales', function () {
@@ -33,5 +33,16 @@ describe('Unit tests for sales service', function () {
       expect(result.message).to.equal('Sale not found');
     });
   });
+
+  describe('Removing sales', function () {
+    it('should remove a sale', async function () {
+      sinon.stub(salesModel, "findById").resolves(sale);
+      sinon.stub(salesModel, "remove").resolves({ affectedRows: 1 });
+
+      const result = await salesService.removeSale(1);
+      expect(result.type).to.equal(null);
+    });
+  });
+
   afterEach(sinon.restore);
 });

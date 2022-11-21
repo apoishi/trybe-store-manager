@@ -19,5 +19,13 @@ describe('Unit tests for sales model', function () {
       expect(result).to.be.deep.equal(sale);
     });
   });
+  describe('Removing sales', function () {
+  it('should remove a sale', async function () {
+    sinon.stub(connection, "execute").resolves([{ affectedRows: 1 }]);
+
+    const result = await salesModel.remove(salesList[0].saleId);
+    expect(result).to.deep.equal({ affectedRows: 1 });
+  });
+});
   afterEach(sinon.restore);
 });
